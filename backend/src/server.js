@@ -28,21 +28,32 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/runs', createRunsRouter(db));
 
-/* Serve the built React frontend */
+/*
+ * Serve the production React build.
+ */
 app.use(express.static(frontendDist));
 
-/* React SPA fallback */
-app.get('*', (req, res, next) => {
-  if (req.path.startsWith('/api/')) {
+/*
+ * React SPA fallback.
+ *
+ * Express 5 no longer accepts app.get('*', ...), so use middleware
+ * instead. Only GET requests outside /api are sent to React.
+ */
+app.use((req, res, next) => {
+  if (req.method !== 'GET' || req.path.startsWith('/api/')) {
     return next();
   }
 
   res.sendFile(path.join(frontendDist, 'index.html'));
 });
 
-/* API / unknown route fallback */
+/*
+ * Anything else under the API receives a JSON 404.
+ */
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found.' });
+  res.status(404).json({
+    error: 'Route not found.'
+  });
 });
 
 app.use((error, req, res, next) => {
@@ -58,9 +69,7 @@ app.use((error, req, res, next) => {
 });
 
 const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(
-    `Autonomous Supermarket listening on port ${PORT}`
-  );
+  console.log(`Autonomous Supermarket listening on port ${PORT}`);
 });
 
 function shutdown() {
