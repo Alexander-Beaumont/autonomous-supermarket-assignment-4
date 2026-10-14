@@ -1,0 +1,23 @@
+{
+  "name": "autonomous-supermarket-assignment-4",
+  "version": "1.1.0",
+  "private": true,
+  "description": "CSE3CWA/CSE5006 Assignment 4 - Autonomous Supermarket simulation and commercial assurance",
+  "scripts": {
+    "postinstall": "npm --prefix backend install && npm --prefix frontend install",
+    "dev": "concurrently -n API,WEB -c auto \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "start": "concurrently -n API,WEB -c auto \"npm --prefix backend start\" \"npm --prefix frontend run dev -- --host 0.0.0.0\"",
+    "build": "npm --prefix frontend run build",
+    "test": "npm --prefix backend test",
+    "reseed": "npm --prefix backend run reseed",
+    "check-submission": "npm --prefix backend run check",
+    "verify": "npm test && npm run check-submission && npm run build"
+  },
+  "dependencies": {
+    "concurrently": "9.2.1"
+  },
+  "engines": {
+    "node": ">=22.5.0",
+    "npm": ">=10"
+  }
+}
