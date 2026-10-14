@@ -37,7 +37,7 @@ export default function CommercialReportPage() {
         <KpiCard label="COGS" value={money(s.cogs)} detail="Acquisition cost of units sold" icon={Boxes}/>
         <KpiCard label="Gross profit" value={money(s.gross_profit)} detail={`${pct(margin)} gross margin`} icon={TrendingUp} tone="positive"/>
         <KpiCard label="Expiry / write-off" value={money(s.expiry_writeoff_value)} detail="Reported separately from COGS" icon={AlertTriangle}/>
-        <KpiCard label="Closing operating cash" value={money(s.closing_operating_cash)} icon={Banknote}/>
+        <KpiCard label="Closing operating cash" value={money(s.closing_operating_cash)} detail="Liquidity measure; not net profit" icon={Banknote}/>
         <KpiCard label="Closing inventory value" value={money(s.closing_inventory_value)} detail="At purchase cost" icon={PackageCheck}/>
       </div>
 
@@ -53,7 +53,7 @@ export default function CommercialReportPage() {
         <SectionCard title="Customer activity across 60 days" subtitle="Daily shopping visits and completed transactions from the stored run.">
           <div className="chart-large"><ResponsiveContainer width="100%" height="100%"><LineChart data={p1.dailyActivity}><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey="day_number" tickLine={false}/><YAxis tickLine={false}/><Tooltip labelFormatter={v=>`Day ${v}`}/><Legend/><Line dataKey="customer_visits" name="Customer visits" type="monotone" stroke="var(--chart-primary)" strokeWidth={2.4} dot={false}/><Line dataKey="transactions" name="Transactions" type="monotone" stroke="var(--chart-secondary)" strokeWidth={2} dot={false}/></LineChart></ResponsiveContainer></div>
         </SectionCard>
-        <SectionCard title="Customer-type performance" subtitle="Visit mix and basket fulfilment across the complete Submitted Run.">
+        <SectionCard title="Customer-type performance" subtitle="Visit mix and basket fulfilment across the selected completed run.">
           <DataTable rowKey="customer_type" rows={p1.shopperPerformance.byCustomerType} columns={[
             {key:'customer_type',label:'Customer type'}, {key:'visits',label:'Visits',align:'right'}, {key:'purchasing_visits',label:'Transactions',align:'right'}, {key:'avg_intended_basket',label:'Avg intended',align:'right'}, {key:'avg_fulfilled_units',label:'Avg fulfilled',align:'right'}
           ]}/>

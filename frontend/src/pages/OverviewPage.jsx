@@ -32,12 +32,12 @@ export default function OverviewPage() {
     <div className="kpi-grid kpi-grid-4">
       <KpiCard label="Sales revenue" value={money(t.revenue)} detail={`${integer(t.total_transactions)} transactions`} icon={CircleDollarSign} tone="positive"/>
       <KpiCard label="Gross profit" value={money(t.gross_profit)} detail={`${pct(margin)} gross margin`} icon={TrendingUp} tone="positive"/>
-      <KpiCard label="Closing cash" value={money(t.closing_operating_cash)} detail={`${money(t.replenishment_spending)} replenishment spend`} icon={Banknote}/>
+      <KpiCard label="Closing cash" value={money(t.closing_operating_cash)} detail={`Operating liquidity · ${money(t.replenishment_spending)} replenishment spend`} icon={Banknote}/>
       <KpiCard label="Commercial assurance" value={assurance.overallStatus} detail="History, inventory, revenue & cash" icon={ShieldCheck} tone={assurance.overallStatus === 'PASS' ? 'positive' : 'danger'}/>
     </div>
 
     <div className="two-col">
-      <SectionCard title="60-day trading pattern" subtitle="Daily revenue from the stored Submitted Run.">
+      <SectionCard title="60-day trading pattern" subtitle="Daily revenue from the selected completed run.">
         <div className="chart-large">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={p1.dailyActivity} margin={{ top:10, right:12, bottom:4, left:0 }}>

@@ -33,7 +33,7 @@ export default function DailyReportPage() {
 
   return <>
     <PageHeader eyebrow="Stored daily audit evidence" title={`Daily Report · Day ${day}`} subtitle={`${d.day_of_week}, ${dateAU(d.simulated_date)} · one reusable view for Days 1–60.`}
-      actions={<div className="day-controls"><button className="icon-button" disabled={day<=1} onClick={()=>setDay(v=>v-1)}><ChevronLeft size={18}/></button><select value={day} onChange={e=>setDay(Number(e.target.value))}>{Array.from({length:60},(_,i)=><option key={i+1} value={i+1}>Day {i+1}</option>)}</select><button className="icon-button" disabled={day>=60} onClick={()=>setDay(v=>v+1)}><ChevronRight size={18}/></button></div>}
+      actions={<div className="day-controls"><button className="icon-button" aria-label="Previous day" disabled={day<=1} onClick={()=>setDay(v=>v-1)}><ChevronLeft size={18}/></button><select value={day} onChange={e=>setDay(Number(e.target.value))}>{Array.from({length:60},(_,i)=><option key={i+1} value={i+1}>Day {i+1}</option>)}</select><button className="icon-button" aria-label="Next day" disabled={day>=60} onClick={()=>setDay(v=>v+1)}><ChevronRight size={18}/></button></div>}
     />
 
     <InfoBanner><strong>Daily operating sequence:</strong> replenishment receipts → expiry/write-off → customer activity & sales → closing Store Brain review → next-day order placement. Day 60 has no new replenishment order.</InfoBanner>

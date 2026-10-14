@@ -4,6 +4,7 @@ export function generateCommercialFindings(db, runId) {
   db.prepare('DELETE FROM commercial_findings WHERE run_id = ?').run(runId);
 
   const run = db.prepare('SELECT * FROM simulation_runs WHERE id = ?').get(runId);
+  const evidenceRunLabel = run.is_submitted ? 'Submitted Run' : `completed run ${run.run_code}`;
   const totals = db.prepare(`
     SELECT
       SUM(customer_visits) customers,
@@ -100,7 +101,7 @@ export function generateCommercialFindings(db, runId) {
     runId,
     1,
     'The simulated store generates a positive trading contribution, led by weekday CBD demand',
-    `Across the 60-day Submitted Run, sales produced positive gross profit and operating cash remained above zero. Average weekday revenue was ${weekdayPremium >= 0 ? 'higher' : 'lower'} than average weekend revenue.`,
+    `Across the 60-day ${evidenceRunLabel}, sales produced positive gross profit and operating cash remained above zero. Average weekday revenue was ${weekdayPremium >= 0 ? 'higher' : 'lower'} than average weekend revenue.`,
     `Revenue was A$${round2(totals.revenue).toFixed(2)}, COGS A$${round2(totals.cogs).toFixed(2)} and gross profit A$${round2(totals.gross_profit).toFixed(2)} (${margin.toFixed(1)}% gross margin). Closing operating cash was A$${round2(run.closing_operating_cash).toFixed(2)}. Average weekday revenue was A$${round2(weekday.avg_revenue).toFixed(2)} versus A$${round2(weekend.avg_revenue).toFixed(2)} on weekends.`,
     'Within the model boundary, the product mix and synthetic CBD demand produce positive gross margin while replenishment remains affordable. Closing operating cash is a liquidity measure rather than profit: opening inventory was funded separately, so cash also includes proceeds generated from selling that separately funded opening stock. The weekday/weekend difference is consistent with the modelled office-worker and student mix around the CBD location.',
     'The prototype supports continued development, but neither gross profit nor closing operating cash is equivalent to real-store net profitability. Major fixed operating costs are excluded, and the operating-cash account does not charge the separately funded opening inventory.',
@@ -113,7 +114,7 @@ export function generateCommercialFindings(db, runId) {
       runId,
       2,
       `Availability pressure is concentrated in ${topAvailability.name}`,
-      `${topAvailability.name} recorded the highest sold-out frequency in the Submitted Run, so it is the clearest SKU-level availability problem to investigate.`,
+      `${topAvailability.name} recorded the highest sold-out frequency in the ${evidenceRunLabel}, so it is the clearest SKU-level availability problem to investigate.`,
       `${topAvailability.stockout_events} sold-out event(s), ${topAvailability.low_stock_events} low-stock event(s), ${topAvailability.unavailable_attempts} fully unavailable demand attempt(s) and ${topAvailability.unfulfilled_units} unfulfilled unit(s) were recorded. It still sold ${topAvailability.units_sold} units and generated A$${round2(topAvailability.revenue).toFixed(2)} revenue; ${topAvailability.expired_units} unit(s) were also written off (A$${round2(topAvailability.writeoff_value).toFixed(2)}).`,
       'Demand sometimes depleted saleable stock before the next replenishment arrived. Because the product is also perishable, simply raising target stock would trade fewer stockouts for greater expiry exposure; the control problem is timing as well as quantity.',
       'Repeated unavailability can suppress revenue and customer confidence, while excess safety stock can increase waste. The client therefore needs a service-level versus expiry trade-off rather than a one-sided stock increase.',
@@ -124,7 +125,7 @@ export function generateCommercialFindings(db, runId) {
     insert.run(
       runId, 2,
       'Availability was maintained without a material stockout pattern',
-      'The Submitted Run did not produce a material recurring stockout problem.',
+      `${evidenceRunLabel} did not produce a material recurring stockout problem.`,
       `${topAvailability?.low_stock_events || 0} low-stock event(s) were recorded for the most pressured product, with no material unresolved stockout pattern in the stored history.`,
       'The current days-of-cover and one-day replenishment rules were sufficient for the simulated demand profile.',
       'Service levels appear coherent, although this does not prove the safety stock is optimal.',

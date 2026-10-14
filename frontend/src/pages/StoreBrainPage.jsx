@@ -34,6 +34,7 @@ export default function StoreBrainPage() {
     <SectionCard title="Decision ledger" subtitle={`${integer(events.length)} Store Brain records retained across the selected run.`}
       action={<div className="table-tools"><select value={type} onChange={e=>setType(e.target.value)}><option value="ALL">All event types</option>{[...new Set(events.map(e=>e.event_type))].map(v=><option key={v} value={v}>{v.replaceAll('_',' ')}</option>)}</select><select value={day} onChange={e=>setDay(e.target.value)}><option value="ALL">All days</option>{Array.from({length:60},(_,i)=><option key={i+1} value={i+1}>Day {i+1}</option>)}</select></div>}>
       <div className="event-ledger">
+        {!filtered.length && <div className="empty-panel">No Store Brain records match the selected filters.</div>}
         {filtered.slice(0,300).map(event=><article key={event.id} className="ledger-row">
           <div className="ledger-day">D{String(event.day_number).padStart(2,'0')}</div>
           <div className="ledger-main"><div><SeverityPill severity={event.severity}/><strong>{event.event_type.replaceAll('_',' ')}</strong><span>{event.product_name || 'Store-level control'}</span></div><p>{event.condition_text}</p><small><b>Action:</b> {event.action_text}</small><small><b>Outcome:</b> {event.outcome_text}</small></div>

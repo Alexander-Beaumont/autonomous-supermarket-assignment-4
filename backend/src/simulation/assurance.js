@@ -338,6 +338,6 @@ export function buildAssurance(db, runId) {
       recordedClosingCash:round2(wholeCash.closing_operating_cash),
       difference:finalCashDifference
     },
-    exceptions: failures.length ? failures : [{ area:'Integrity exceptions', detail:'No material integrity failures or unexplained exceptions were detected in the Submitted Run.' }]
+    exceptions: failures.length ? failures : [{ area:'Integrity exceptions', detail:`No material integrity failures or unexplained exceptions were detected in ${run.is_submitted ? 'the Submitted Run' : `completed run ${run.run_code}`}.` }]
   };
 }

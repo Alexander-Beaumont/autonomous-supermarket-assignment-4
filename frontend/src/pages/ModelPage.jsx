@@ -40,7 +40,7 @@ export default function ModelPage() {
       <KpiCard label="Simulation horizon" value="60 days" detail={`Starts ${dateAU(run.simulated_start_date)}`} icon={CalendarDays}/>
     </div>
 
-    <SectionCard title="Model Declaration" subtitle="Material assumptions required to understand the Submitted Run and its commercial conclusions.">
+    <SectionCard title="Model Declaration" subtitle="Material assumptions required to understand the selected completed run and its commercial conclusions.">
       <div className="declaration-grid">
         {Object.entries(declaration).map(([key,value]) => <article key={key} className="declaration-item"><h3>{labelize(key)}</h3><p>{value}</p></article>)}
       </div>

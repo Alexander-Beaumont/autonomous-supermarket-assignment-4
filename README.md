@@ -43,11 +43,13 @@ The root `postinstall` script installs the backend and frontend dependencies as 
 npm run dev
 ```
 
-Open:
+Open the **Local** URL printed by Vite. On a clean machine this is normally:
 
 ```text
 http://localhost:5173
 ```
+
+If port 5173 is already in use, Vite automatically selects the next available port (for example `http://localhost:5174`).
 
 The Express API runs on:
 
@@ -486,7 +488,7 @@ autonomous-supermarket/
 
 ## Troubleshooting
 
-**Port 5173 is already in use:** stop the other Vite process and run `npm run dev` again.
+**Port 5173 is already in use:** use the alternate Local URL printed by Vite (for example port 5174), or stop the other Vite process and restart.
 
 **Port 3001 is already in use:** stop the conflicting API process. The supplied Vite proxy expects the backend on port 3001.
 
